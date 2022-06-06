@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localization_v2/classes/language.dart';
 import 'package:flutter_localization_v2/classes/language_constants.dart';
 import 'package:flutter_localization_v2/main.dart';
-import 'package:flutter_localization_v2/router/route_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,8 +14,33 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
-  void _showSuccessDialog() {
-    showTimePicker(context: context, initialTime: TimeOfDay.now());
+//POP-UP сообщение
+  Future<void> _showSuccessDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Уведомление'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Сохранено'),
+                Text('Регистрация прошлп успешно'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('ОК'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -26,6 +51,7 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
+            //настройки языка
             child: DropdownButton<Language>(
               underline: const SizedBox(),
               icon: const Icon(
@@ -59,9 +85,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: _drawerList(),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: _mainForm(context),
@@ -69,6 +92,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //форма для заполнения
   Form _mainForm(BuildContext context) {
     return Form(
       key: _key,
@@ -122,15 +146,15 @@ class _HomePageState extends State<HomePage> {
           TextFormField(
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              hintText: translation(context).dateOfBirth,
+              hintText: AppLocalizations.of(context)!.dateOfBirth,
             ),
             onTap: () async {
               FocusScope.of(context).requestFocus(FocusNode());
               await showDatePicker(
                 context: context,
                 initialDate: DateTime.now(),
-                firstDate: DateTime(DateTime.now().year),
-                lastDate: DateTime(DateTime.now().year + 20),
+                firstDate: DateTime(DateTime.now().year - 50),
+                lastDate: DateTime(DateTime.now().year + 1),
               );
             },
           ),
@@ -153,61 +177,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           )
-        ],
-      ),
-    );
-  }
-
-  Container _drawerList() {
-    TextStyle _textStyle = const TextStyle(
-      color: Colors.white,
-      fontSize: 24,
-    );
-    return Container(
-      color: Theme.of(context).primaryColor,
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            child: Container(
-              height: 100,
-              child: const CircleAvatar(),
-            ),
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.info,
-              color: Colors.white,
-              size: 30,
-            ),
-            title: Text(
-              translation(context).aboutUs,
-              style: _textStyle,
-            ),
-            onTap: () {
-              // To close the Drawer
-              Navigator.pop(context);
-              // Navigating to About Page
-              Navigator.pushNamed(context, aboutRoute);
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.settings,
-              color: Colors.white,
-              size: 30,
-            ),
-            title: Text(
-              translation(context).settings,
-              style: _textStyle,
-            ),
-            onTap: () {
-              // To close the Drawer
-              Navigator.pop(context);
-              // Navigating to About Page
-              Navigator.pushNamed(context, settingsRoute);
-            },
-          ),
         ],
       ),
     );

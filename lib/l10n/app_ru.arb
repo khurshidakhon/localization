@@ -1,0 +1,13 @@
+{
+  "homePage": "Главная страница",
+  "personalInformation": "Персональные данные",
+  "name": "Имя",
+  "nameHint": "Введите имя",
+  "email": "Почта",
+  "emailHint": "Введите почту",
+  "dateOfBirth": "Дата рождения",
+  "requiredField": "Обязательные поля",
+  "submitInfo": "Сохранить",
+  "settings": "Настройки",
+  "changeLanguage": "Поменять язык"
+  }

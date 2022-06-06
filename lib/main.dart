@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization_v2/classes/language_constants.dart';
-import 'package:flutter_localization_v2/router/custom_router.dart';
-import 'package:flutter_localization_v2/router/route_constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localization_v2/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,8 +44,10 @@ class _MyAppState extends State<MyApp> {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      onGenerateRoute: CustomRouter.generatedRoute,
-      initialRoute: homeRoute,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+      },
       locale: _locale,
     );
   }
